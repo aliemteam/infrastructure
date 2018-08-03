@@ -26,7 +26,6 @@ resource "cloudflare_record" "a-www" {
 #
 # GSuite Records
 #
-
 resource "cloudflare_record" "mx-gsuite-aspmx" {
   domain   = "${var.domain}"
   name     = "@"
