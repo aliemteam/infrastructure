@@ -1,8 +1,3 @@
-provider "cloudflare" {
-  email = "${var.email}"
-  token = "${var.token}"
-}
-
 # Address Record: domain.com
 resource "cloudflare_record" "a" {
   domain  = "${var.domain}"

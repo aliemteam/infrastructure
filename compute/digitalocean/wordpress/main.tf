@@ -1,7 +1,3 @@
-provider "digitalocean" {
-  token = "${var.token}"
-}
-
 resource "digitalocean_droplet" "wordpress" {
   image              = "docker-16-04"
   name               = "${var.domain}"
