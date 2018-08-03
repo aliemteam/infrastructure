@@ -8,7 +8,7 @@ resource "cloudflare_record" "a" {
   domain  = "${var.domain}"
   name    = "@"
   type    = "A"
-  value   = "${var.ipv4}"
+  value   = "${var.ipv4_address}"
   ttl     = 1
   proxied = true
 }
@@ -18,7 +18,7 @@ resource "cloudflare_record" "a-www" {
   domain  = "${var.domain}"
   name    = "www"
   type    = "A"
-  value   = "${var.ipv4}"
+  value   = "${var.ipv4_address}"
   ttl     = 1
   proxied = true
 }
