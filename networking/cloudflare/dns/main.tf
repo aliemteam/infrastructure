@@ -23,45 +23,12 @@ resource "cloudflare_record" "a-www" {
   proxied = true
 }
 
-#
-# GSuite Records
-#
-resource "cloudflare_record" "mx-gsuite-aspmx" {
+# Mail Exchange Records: Gsuite / Gmail
+resource "cloudflare_record" "mx-gsuite" {
+  count    = 5
   domain   = "${var.domain}"
   name     = "@"
   type     = "MX"
-  value    = "aspmx.l.google.com"
-  priority = 1
-}
-
-resource "cloudflare_record" "mx-gsuite-alt1" {
-  domain   = "${var.domain}"
-  name     = "@"
-  type     = "MX"
-  value    = "alt1.aspmx.l.google.com"
-  priority = 5
-}
-
-resource "cloudflare_record" "mx-gsuite-alt2" {
-  domain   = "${var.domain}"
-  name     = "@"
-  type     = "MX"
-  value    = "alt2.aspmx.l.google.com"
-  priority = 5
-}
-
-resource "cloudflare_record" "mx-gsuite-alt3" {
-  domain   = "${var.domain}"
-  name     = "@"
-  type     = "MX"
-  value    = "alt3.aspmx.l.google.com"
-  priority = 10
-}
-
-resource "cloudflare_record" "mx-gsuite-alt4" {
-  domain   = "${var.domain}"
-  name     = "@"
-  type     = "MX"
-  value    = "alt4.aspmx.l.google.com"
-  priority = 10
+  value    = "${count.index == 0 ? "" : "alt${count.index + 1}."}aspmx.l.google.com"
+  priority = "${abs(element(list("1", "5", "5", "10", "10"), count.index))}"
 }
