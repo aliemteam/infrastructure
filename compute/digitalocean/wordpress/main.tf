@@ -18,7 +18,12 @@ resource "digitalocean_droplet" "wordpress" {
   backups            = true
   monitoring         = true
   private_networking = true
-  ssh_keys           = "${data.digitalocean_ssh_key.*.id}"
+
+  ssh_keys = [
+    "${data.digitalocean_ssh_key.dsifford_desktop.id}",
+    "${data.digitalocean_ssh_key.dsifford_macbook.id}",
+    "${data.digitalocean_ssh_key.cgaafary_desktop.id}",
+  ]
 
   connection {
     type        = "ssh"
