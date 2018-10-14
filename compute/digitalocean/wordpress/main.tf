@@ -1,12 +1,24 @@
+data "digitalocean_ssh_key" "dsifford_desktop" {
+  name = "dsifford@archlinux_desktop"
+}
+
+data "digitalocean_ssh_key" "dsifford_macbook" {
+  name = "dsifford@macbook-pro"
+}
+
+data "digitalocean_ssh_key" "cgaafary_desktop" {
+  name = "cgaafary@ubuntu_wsl_desktop"
+}
+
 resource "digitalocean_droplet" "wordpress" {
-  image              = "docker-16-04"
+  image              = "docker-18-04"
   name               = "${var.domain}"
   region             = "${var.region}"
   size               = "${var.size}"
   backups            = true
   monitoring         = true
   private_networking = true
-  ssh_keys           = ["c7:e3:6b:2d:f6:aa:c8:a8:32:c2:fa:ab:67:5e:4f:0d"]
+  ssh_keys           = "${data.digitalocean_ssh_key.*.id}"
 
   connection {
     type        = "ssh"
