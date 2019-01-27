@@ -1,4 +1,4 @@
-variable "digitalocean_image" {
+variable "image" {
   # See `doctl compute image list-application --public` for list
   description = "The slug of the image to use for the droplet."
 }
