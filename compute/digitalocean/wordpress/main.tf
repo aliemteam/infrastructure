@@ -7,7 +7,7 @@ data "digitalocean_ssh_key" "dsifford_macbook" {
 }
 
 resource "digitalocean_droplet" "wordpress" {
-  image              = "${var.digitalocean_image}"
+  image              = "${var.image}"
   name               = "${var.domain}"
   region             = "${var.region}"
   size               = "${var.size}"
