@@ -6,10 +6,6 @@ data "digitalocean_ssh_key" "dsifford_macbook" {
   name = "dsifford@macbook-pro"
 }
 
-data "digitalocean_ssh_key" "cgaafary_desktop" {
-  name = "cgaafary@ubuntu_wsl_desktop"
-}
-
 resource "digitalocean_droplet" "wordpress" {
   image              = "docker-18-04"
   name               = "${var.domain}"
@@ -22,7 +18,6 @@ resource "digitalocean_droplet" "wordpress" {
   ssh_keys = [
     "${data.digitalocean_ssh_key.dsifford_desktop.id}",
     "${data.digitalocean_ssh_key.dsifford_macbook.id}",
-    "${data.digitalocean_ssh_key.cgaafary_desktop.id}",
   ]
 
   connection {
