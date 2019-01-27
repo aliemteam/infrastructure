@@ -1,3 +1,8 @@
+variable "digitalocean_image" {
+  # See `doctl compute image list-application --public` for list
+  description = "The slug of the image to use for the droplet."
+}
+
 variable "domain" {
   description = "The domain name of the site."
 }
