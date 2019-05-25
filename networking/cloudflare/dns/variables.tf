@@ -5,3 +5,4 @@ variable "domain" {
 variable "ipv4_address" {
   description = "The IP Address of the web service."
 }
+

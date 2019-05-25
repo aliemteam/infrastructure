@@ -7,22 +7,23 @@ data "digitalocean_ssh_key" "dsifford_macbook" {
 }
 
 resource "digitalocean_droplet" "wordpress" {
-  image              = "${var.image}"
-  name               = "${var.domain}"
-  region             = "${var.region}"
-  size               = "${var.size}"
+  image              = var.image
+  name               = var.domain
+  region             = var.region
+  size               = var.size
   backups            = true
   monitoring         = true
   private_networking = true
 
   ssh_keys = [
-    "${data.digitalocean_ssh_key.dsifford_desktop.id}",
-    "${data.digitalocean_ssh_key.dsifford_macbook.id}",
+    data.digitalocean_ssh_key.dsifford_desktop.id,
+    data.digitalocean_ssh_key.dsifford_macbook.id,
   ]
 
   connection {
+    host        = self.ipv4_address
     type        = "ssh"
-    private_key = "${file("~/.ssh/id_rsa")}"
+    private_key = file("~/.ssh/id_rsa")
   }
 
   provisioner "remote-exec" {
@@ -73,3 +74,4 @@ resource "digitalocean_droplet" "wordpress" {
     ]
   }
 }
+
