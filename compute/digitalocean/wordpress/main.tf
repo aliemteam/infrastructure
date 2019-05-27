@@ -13,7 +13,6 @@ resource "digitalocean_droplet" "wordpress" {
   size               = var.size
   backups            = true
   monitoring         = true
-  private_networking = true
 
   ssh_keys = [
     data.digitalocean_ssh_key.dsifford_desktop.id,
@@ -29,10 +28,9 @@ resource "digitalocean_droplet" "wordpress" {
   provisioner "remote-exec" {
     inline = [
       "sleep 30",
-      "export DEBIAN_FRONTEND=noninteractive",
       "apt-get update",
       "apt-get install --upgrade -y docker-ce tree",
-      "bash -c 'mkdir -p /app/{data,wp-content/{plugins,uploads,themes/${var.domain}}}'",
+      "bash -c 'mkdir -p /app/{data,etc,wp-content/{plugins,uploads,themes/${var.domain}}}'",
       "{ echo alias d='docker'; echo alias dc='docker-compose'; } >> ~/.bashrc",
     ]
   }
@@ -48,13 +46,13 @@ resource "digitalocean_droplet" "wordpress" {
   }
 
   provisioner "file" {
-    source      = "lib/production.yml"
+    source      = "docker-compose.prod.yml"
     destination = "/app/docker-compose.override.yml"
   }
 
   provisioner "file" {
-    source      = "data/database.sql"
-    destination = "/app/data/database.sql"
+    source      = "etc"
+    destination = "/app"
   }
 
   provisioner "file" {
@@ -65,6 +63,11 @@ resource "digitalocean_droplet" "wordpress" {
   provisioner "file" {
     source      = "dist/"
     destination = "/app/wp-content/themes/${var.domain}"
+  }
+
+  provisioner "file" {
+    source      = "data/database.sql"
+    destination = "/app/data/database.sql"
   }
 
   provisioner "remote-exec" {
